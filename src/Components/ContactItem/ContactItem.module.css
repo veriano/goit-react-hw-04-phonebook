@@ -1,0 +1,17 @@
+.Button {
+    display: block;
+    margin: 20px 0 10px 10px;
+    width: 100px;
+    height: 35px;
+    color: blueviolet;
+    font-size: 15px;
+    border: none;
+    border-radius: 4px;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.12), 0px 1px 1px rgb(0 0 0 / 14%),
+    0px 2px 1px rgb(0 0 0 / 20%);
+    cursor: pointer;
+}
+.Item {
+    border: 1px solid blueviolet;
+    border-radius: 6px;
+}
