@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import s from './ContactForm.module.css';
 
-function ContactForm() {
+function ContactForm ({ onSubmitHandler }) {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
@@ -15,42 +15,44 @@ function ContactForm() {
         
         case 'number':
           setNumber(value);
+          break;
 
         default:
           return;
       }
+    }
+  
 
-      const reset = ()=> {
-      setName('');
-      setNumber('');
-          // this.setState({ name: '', number: ''})
+      const reset = () => {
+        setName('');
+        setNumber('');
       }
    
     
       const handleSubmit = e => {
         e.preventDefault();
     
-        this.props.onSubmitHandler(this.state);
+        onSubmitHandler({name, number} );
         reset();
       }
 
    
       return (
-            <form className={s.Form} onSubmit={handleSubmit}>
+            <form className={ s.Form } onSubmit={ handleSubmit }>
             <label>
-            <span className={s.Label}> Name </span>
-            <input className={s.Input}
-            type="text" value={name} 
-            onChange={this.handleChange}
+            <span className={ s.Label }> Name </span>
+            <input className={ s.Input }
+            type="text" value={ name } 
+            onChange={ handleChange }
             name="name"
             pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
             title="Имя может состоять только из букв, апострофа, тире и пробелов. Например Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan и т. п."
             required
-           />
+            />
             </label> 
             <label>
-            <span className={s.Label}>Number</span>
-            <input className={s.Input}
+            <span className={ s.Label }>Number</span>
+            <input className={ s.Input }
             type="tel" value={ number }
             onChange={ handleChange }
             name="number"
@@ -59,7 +61,7 @@ function ContactForm() {
              required
             />
             </label>
-            <button className={s.Button} type='submit'><b>Add contact</b></button>
+            <button className={ s.Button } type='submit'><b>Add contact</b></button>
             </form>
         )
 
