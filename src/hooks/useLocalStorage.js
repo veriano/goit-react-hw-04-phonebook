@@ -14,7 +14,7 @@ function useLocalStorage(key, defaultValue) {
 }
 useLocalStorage.propTypes = {
   key: PropTypes.string,
-  defaultValue: PropTypes.array,
+  defaultValue: PropTypes.node,
 }
 
 export default useLocalStorage;

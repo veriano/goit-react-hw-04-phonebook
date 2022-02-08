@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-// import useLocalStorage from './hooks/useLocalStorage';
+import { useState } from 'react';
+import useLocalStorage from './hooks/useLocalStorage';
 import { v4 as uuidv4 } from 'uuid';
 import s from './App.module.css';
 import ContactForm from './Components/ContactForm';
@@ -10,16 +10,8 @@ import Filter from './Components/Filter';
 
 function App() {
   
-  const [contacts, setContacts] = useState(JSON.parse(localStorage.getItem("contacts"))) ?? [
-    { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-    { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-    { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-    { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-  ];
-
-  useEffect(() => {
-      window.localStorage.setItem("contacts", JSON.stringify(contacts));
-  },[contacts]);
+  const [contacts, setContacts] = useLocalStorage("contacts", '');
+  console.log(contacts);
 
   const [filter, setFilter] = useState('');
 
@@ -34,7 +26,7 @@ function App() {
       number: data.number,
     }
     console.log(contact);
-    if (contacts !== null) {
+    if (contacts) {
       const contactName = contacts.find(contact => contact.name.toLowerCase() === data.name.toLowerCase());
       
       if (contactName) {
@@ -42,20 +34,21 @@ function App() {
         return;
       }
     }
-    if (contacts !== null) {
-      setContacts(prevState => [contact, ...prevState.contacts]);
+    
+    if (contacts !== null || contacts.length > 0) {
+      setContacts({contact, ...contacts});
     }
   }
 
   const deleteContact = (contactId) => {
-    setContacts(prevState => ({ ...prevState.filter(contact => contact.id !== contactId)}));
+    setContacts(prevState => prevState.filter(contact => contact.id !== contactId));
   }
 
-    const getVisibleContacts = () => {
-      const normolizedFilter = filter.toLowerCase();
-      if (contacts !== null) {
-        setContacts(contacts.filter(contact => contact.name.toLowerCase().includes(normolizedFilter)));
-      }
+  const getVisibleContacts = () => {
+    const normolizedFilter = filter.toLowerCase();
+    if(contacts) {
+    setContacts(contacts.filter(contact => contact.name.toLowerCase().includes(normolizedFilter)));
+    }
   }
 
   const visibleContacts = getVisibleContacts();
