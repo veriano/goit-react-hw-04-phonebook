@@ -1,9 +1,12 @@
 import { useState } from 'react';
+import PropTypes from 'prop-types';
 import s from './ContactForm.module.css';
 
 function ContactForm ({ onSubmitHandler }) {
   const [name, setName] = useState('');
+  console.log(name);
   const [number, setNumber] = useState('');
+  console.log(number);
 
     const handleChange = (e) => {
       const { name, value } = e.currentTarget;
@@ -23,18 +26,18 @@ function ContactForm ({ onSubmitHandler }) {
     }
   
 
-      const reset = () => {
+    const reset = () => {
         setName('');
         setNumber('');
-      }
+    }
    
     
-      const handleSubmit = e => {
+    const handleSubmit = e => {
         e.preventDefault();
     
-        onSubmitHandler({name, number} );
+      onSubmitHandler({ name, number });
         reset();
-      }
+    }
 
    
       return (
@@ -66,4 +69,9 @@ function ContactForm ({ onSubmitHandler }) {
         )
 
 }
+
+ContactForm.propTypes = {
+  onSubmitHandler: PropTypes.func,
+}
+
 export default ContactForm;
