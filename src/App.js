@@ -11,12 +11,12 @@ import Filter from './Components/Filter';
 function App() {
   
   const [contacts, setContacts] = useState(() => {
-    return JSON.parse(localStorage.getItem("contacts"));
+    return JSON.parse(localStorage.getItem("contacts")) ?? [];
   });
   const [filter, setFilter] = useState('');
 
   useEffect(()=>{
-    localStorage.setItem("contacts", JSON.stringify(contacts));
+    window.localStorage.setItem("contacts", JSON.stringify(contacts));
   },[contacts])
 
 
