@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import useLocalStorage from './hooks/useLocalStorage';
+import { useState, useEffect } from 'react';
+// import useLocalStorage from './hooks/useLocalStorage';
 import { v4 as uuidv4 } from 'uuid';
 import s from './App.module.css';
 import ContactForm from './Components/ContactForm';
@@ -10,44 +10,49 @@ import Filter from './Components/Filter';
 
 function App() {
   
-  const [contacts, setContacts] = useLocalStorage("contacts", '');
-  console.log(contacts);
-
+  const [contacts, setContacts] = useState(() => {
+    return JSON.parse(localStorage.getItem("contacts"));
+  });
   const [filter, setFilter] = useState('');
+
+  useEffect(()=>{
+    localStorage.setItem("contacts", JSON.stringify(contacts));
+  },[contacts])
+
 
   const changeFilter = e => {
     setFilter(e.currentTarget.value);
   }
 
-  const addContact = data => {
+  const addContact = (data) => {
     const contact = {
       id: uuidv4(),
       name: data.name,
       number: data.number,
     }
     console.log(contact);
-    if (contacts) {
+    if(contacts !== null) {
       const contactName = contacts.find(contact => contact.name.toLowerCase() === data.name.toLowerCase());
-      
-      if (contactName) {
-        alert(`${data.name} already in contacts.`);
-        return;
-      }
-    }
     
-    if (contacts !== null || contacts.length > 0) {
-      setContacts({contact, ...contacts});
+      if(contactName) {
+        alert(`${data.name} already in contacts.`);
+        return; 
+      }
+      setContacts(prevContacts => [...contact,...prevContacts]);
     }
   }
 
   const deleteContact = (contactId) => {
-    setContacts(prevState => prevState.filter(contact => contact.id !== contactId));
+    if(contactId) {
+    setContacts(prevFilter => prevFilter.filter(contact => contact.id !== contactId));
+    }
   }
 
   const getVisibleContacts = () => {
     const normolizedFilter = filter.toLowerCase();
-    if(contacts) {
-    setContacts(contacts.filter(contact => contact.name.toLowerCase().includes(normolizedFilter)));
+
+    if(contacts !== null) {
+    return setContacts(prevContacts => prevContacts.filter(contact => contact.name.toLowerCase().includes(normolizedFilter)));
     }
   }
 

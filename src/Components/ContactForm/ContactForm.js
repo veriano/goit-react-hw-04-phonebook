@@ -4,9 +4,7 @@ import s from './ContactForm.module.css';
 
 function ContactForm ({ onSubmitHandler }) {
   const [name, setName] = useState('');
-  console.log(name);
   const [number, setNumber] = useState('');
-  console.log(number);
 
     const handleChange = (e) => {
       const { name, value } = e.currentTarget;
@@ -25,7 +23,6 @@ function ContactForm ({ onSubmitHandler }) {
       }
     }
   
-
     const reset = () => {
         setName('');
         setNumber('');
