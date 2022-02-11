@@ -43,16 +43,14 @@ function App() {
   }
 
   const deleteContact = (contactId) => {
-    if(contactId) {
-    setContacts(prevFilter => prevFilter.filter(contact => contact.id !== contactId));
-    }
+    setContacts(contacts.filter(contact => contact.id !== contactId));
   }
 
   const getVisibleContacts = () => {
     const normolizedFilter = filter.toLowerCase();
 
     if(contacts !== null) {
-    return setContacts(prevContacts => prevContacts.filter(contact => contact.name.toLowerCase().includes(normolizedFilter)));
+    return setContacts(contacts.filter(contact => contact.name.toLowerCase().includes(normolizedFilter)));
     }
   }
 
